@@ -1,17 +1,3 @@
-# FROM python:3.9
-#
-# WORKDIR /app
-#
-# RUN pip install gunicorn==20.1.0
-#
-# COPY requirements.txt .
-#
-# RUN pip install -r requirements.txt --no-cache-dir
-#
-# COPY . .
-#
-# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi"]
-
 # This is a so-called multistage docker file.
 
 #____________________________________________________________________
@@ -19,10 +5,8 @@
 #--------------------------------------------------------------------
 FROM python:3.9 AS builder
 WORKDIR /app
-# RUN pip install gunicorn==20.1.0
 COPY requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
-
 
 #____________________________________________________________________
 #                                Backend files
@@ -31,7 +15,7 @@ FROM python:3.9-slim
 WORKDIR /app
 COPY --from=builder /app/wheels /wheels
 RUN pip install --no-cache /wheels/*
-COPY api/ ./api
-COPY backend ./backend
+COPY api/. ./api
+COPY backend/. ./backend
 COPY manage.py ./manage.py
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi"]
