@@ -30,6 +30,8 @@ RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.t
 FROM python:3.9-slim
 WORKDIR /app
 COPY --from=builder /app/wheels /wheels
-COPY --from=builder /app/requirements.txt .
 RUN pip install --no-cache /wheels/*
+COPY api/ ./api
+COPY backend ./backend
+COPY manage.py ./manage.py
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend.wsgi"]
