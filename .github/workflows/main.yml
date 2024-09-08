@@ -65,7 +65,7 @@ jobs:
           # Нет, это нехорошо
       - name: Push to DockerHub
         # Одновременный билд и пуш образа в Docker Hub
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v6
         with:
           # Параметр context: ./backend/ указывает, что нужный Dockerfile
           # находится в ./backend/
