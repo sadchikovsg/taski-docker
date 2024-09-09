@@ -7,7 +7,8 @@ volumes:
 # Всё отличие — заменяем build на image и указываем, какой образ использовать
 services:
   db:
-    image: postgres:13.10
+    # image: postgres:13.10
+    image: postgres:13-alpine
     env_file: .env
     volumes: [pg_data_production:/var/lib/postgresql/data]
   backend:
