@@ -17,5 +17,4 @@ RUN npm run build
 #--------------------------------------------------------------------
 
 FROM scratch
-COPY --from=build_frontend /app/build ./app/build
-
+COPY --from=build_frontend /app/build/. ./frontend_static/
