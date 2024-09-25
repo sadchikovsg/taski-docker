@@ -11,6 +11,8 @@ services:
     image: sadomehanika/taski_backend
     env_file: .env
     volumes: [static_volume:/backend_static]
+    depends_on:
+      - db
   frontend:
     image: sadomehanika/taski_frontend
     env_file: .env
