@@ -187,6 +187,10 @@ jobs:
             sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
             sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
             sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+            npm cache clean --force
+            sudo apt clean
+            sudo journalctl --vacuum-time=1d
+            sudo docker system prune -af
 
   send_message:
     runs-on: ubuntu-latest
@@ -197,4 +201,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: Деплой успешно выполнен!
+          message: Деплой Taski успешно выполнен!
