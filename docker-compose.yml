@@ -8,6 +8,11 @@ services:
     image: postgres:13
     env_file: .env
     volumes: [pg_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   backend:
     build: ./backend/
     env_file: .env
@@ -23,4 +28,7 @@ services:
     build: ./gateway/
     env_file: .env
     volumes: [static:/staticfiles]
+    depends_on:
+      - frontend
+      - backend
     ports: [8000:80]

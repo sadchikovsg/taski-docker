@@ -16,6 +16,6 @@ RUN npm run build
 #                                Frontend files
 #--------------------------------------------------------------------
 
-FROM scratch
+FROM busybox:uclibc
 COPY --from=build_frontend /app/build/. /frontend_static
-CMD ["/frontend_static"]
+CMD ["echo", "The frontend files have been copied."]
