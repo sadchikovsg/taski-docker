@@ -9,16 +9,19 @@ services:
     env_file: .env
     volumes: [pg_data:/var/lib/postgresql/data]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 6
+      start_period: 20s
+      timeout: 10s
   backend:
     build: ./backend/
     env_file: .env
     volumes: [static:/backend_static]
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+        restart: true
   frontend:
     env_file: .env
     build: ./frontend/
